@@ -1,13 +1,16 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.stereotype.Service;
+import ru.hogwarts.school.exceptions.StudentNotFoundException;
 import ru.hogwarts.school.model.Student;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
+@Service
 public class StudentServiceImpl implements StudentService {
 
-    private Map<Long, Student> studentMap = new HashMap<>();
+    private final Map<Long, Student> studentMap = new HashMap<>();
     private long counter = 0;
 
     @Override
@@ -20,6 +23,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student getStudent(Long id) {
+        if(!studentMap.containsKey(id)){
+            throw new StudentNotFoundException(String.format("Student [%s] not found",id));
+        }
         return studentMap.get(id);
     }
 
@@ -34,6 +40,13 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void removeStudent(Long id) {
         studentMap.remove(id);
-        System.out.println(String.format("Student %s had been removed", id));
+    }
+
+    @Override
+    public List<Student> getStudentsByAge(int age) {
+       return studentMap.values()
+                .stream()
+                .filter(student -> student.getAge() == age)
+                .toList();
     }
 }

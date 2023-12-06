@@ -1,9 +1,9 @@
 package ru.hogwarts.school.service;
 
-import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 
-@Service
+import java.util.List;
+
 public interface FacultyService {
 
 
@@ -14,4 +14,5 @@ public interface FacultyService {
     Faculty updateFaculty(Long id,Faculty faculty);
 
     void removeFaculty(Long id);
+    List<Faculty> getFacultyByColor(String color);
 }
