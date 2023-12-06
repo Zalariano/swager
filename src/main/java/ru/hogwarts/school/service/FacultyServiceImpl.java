@@ -4,11 +4,12 @@ import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 @Service
 public class FacultyServiceImpl implements FacultyService {
 
-    private Map<Long, Faculty> facultyMap = new HashMap<>();
+    private final Map<Long, Faculty> facultyMap = new HashMap<>();
 
     private long counter = 0;
     @Override
@@ -35,7 +36,15 @@ public class FacultyServiceImpl implements FacultyService {
     @Override
     public void removeFaculty(Long id) {
         facultyMap.remove(id);
-        System.out.println(String.format("Student %s had been removed", id));
+        System.out.printf("Student %s had been removed%n", id);
 
+    }
+
+    @Override
+    public List<Faculty> getFacultyByColor(String color) {
+        return facultyMap.values()
+                .stream()
+                .filter(faculty -> faculty.getColor().equals(color))
+                .toList();
     }
 }
